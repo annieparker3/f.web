@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { render } from "@react-email/render";
-import { getResend, FROM_EMAIL } from "@/lib/resend";
+import { getResend } from "@/lib/resend";
 import BetaWelcomeEmail from "@/emails/BetaWelcome";
 import AmbassadorWelcomeEmail from "@/emails/AmbassadorWelcome";
 import AdminNotificationEmail from "@/emails/AdminNotification";
@@ -15,6 +15,10 @@ const registerSchema = z.object({
   location: z.string().min(3),
   motivation: z.string().optional().nullable(),
 });
+
+// Use Resend's safe default from address (works without a verified domain)
+const FROM_EMAIL = process.env.FROM_EMAIL || "Forge <onboarding@resend.dev>";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "intelligentsystems26@gmail.com";
 
 export async function POST(
   request: NextRequest,
@@ -43,7 +47,7 @@ export async function POST(
     const { fullName, email, phone, role, trade, location, motivation } = result.data;
     const createdAt = new Date().toISOString();
 
-    // ── 1. Save to database (mock log for now — replace with Prisma) ──
+    // ── 1. Log registration ──
     console.log(`[DB] New ${program.toUpperCase()} registration:`, {
       fullName,
       email,
@@ -52,23 +56,18 @@ export async function POST(
       createdAt,
     });
 
-    // ── 2. Build the correct email templates ──
+    // ── 2. Build email templates ──
     let userSubject = "";
     let userHtml = "";
 
     if (program === "beta") {
       userSubject = "⚙ You're on the Forge Beta list!";
-      userHtml = await render(
-        BetaWelcomeEmail({ fullName, email, role })
-      );
+      userHtml = await render(BetaWelcomeEmail({ fullName, email, role }));
     } else {
       userSubject = "⚙ Welcome to the Forge Ambassador Program!";
-      userHtml = await render(
-        AmbassadorWelcomeEmail({ fullName, email, location })
-      );
+      userHtml = await render(AmbassadorWelcomeEmail({ fullName, email, location }));
     }
 
-    // Build admin notification email
     const adminSubject = `[Forge] New ${program === "beta" ? "Beta" : "Ambassador"} signup: ${fullName}`;
     const adminHtml = await render(
       AdminNotificationEmail({
@@ -85,41 +84,49 @@ export async function POST(
 
     // ── 3. Send via Resend ──
     const resendClient = getResend();
-    const adminEmail = process.env.ADMIN_EMAIL || "intelligentsystems26@gmail.com";
 
     if (!resendClient) {
-      // API key not configured — log and continue (dev mode)
       console.warn("[Email] RESEND_API_KEY not set — skipping email send.");
-      console.log(`[Email] Would have sent "${userSubject}" to ${email}`);
-      console.log(`[Email] Would have sent admin notification to ${adminEmail}`);
+      return NextResponse.json(
+        { success: true, message: "Registered (email skipped: no API key)." },
+        { status: 200 }
+      );
+    }
+
+    // Send welcome email to the user
+    const { data: userData, error: userEmailError } = await resendClient.emails.send({
+      from: FROM_EMAIL,
+      to: [email],
+      subject: userSubject,
+      html: userHtml,
+    });
+
+    if (userEmailError) {
+      console.error("[Email] Failed to send welcome email:", JSON.stringify(userEmailError));
+      // Return a helpful error to the client
+      return NextResponse.json(
+        {
+          error: `Email delivery failed: ${userEmailError.message}. Note: Resend free plan only allows sending to your own verified email address. Please verify a domain at resend.com/domains.`,
+        },
+        { status: 500 }
+      );
+    }
+
+    console.log(`[Email] Welcome email sent. ID: ${userData?.id} → ${email}`);
+
+    // Send admin notification
+    const { data: adminData, error: adminEmailError } = await resendClient.emails.send({
+      from: FROM_EMAIL,
+      to: [ADMIN_EMAIL],
+      subject: adminSubject,
+      html: adminHtml,
+    });
+
+    if (adminEmailError) {
+      console.error("[Email] Failed to send admin notification:", JSON.stringify(adminEmailError));
+      // Don't fail the whole request just because admin email failed
     } else {
-      // Send welcome email to user
-      const { error: userEmailError } = await resendClient.emails.send({
-        from: FROM_EMAIL,
-        to: email,
-        subject: userSubject,
-        html: userHtml,
-      });
-
-      if (userEmailError) {
-        console.error("[Email] Resend error (user email):", userEmailError);
-      } else {
-        console.log(`[Email] Welcome email sent to ${email} (program: ${program})`);
-      }
-
-      // Send notification to admin
-      const { error: adminEmailError } = await resendClient.emails.send({
-        from: FROM_EMAIL,
-        to: adminEmail,
-        subject: adminSubject,
-        html: adminHtml,
-      });
-
-      if (adminEmailError) {
-        console.error("[Email] Resend error (admin email):", adminEmailError);
-      } else {
-        console.log(`[Email] Admin notification sent to ${adminEmail}`);
-      }
+      console.log(`[Email] Admin notification sent. ID: ${adminData?.id} → ${ADMIN_EMAIL}`);
     }
 
     // ── 4. Return success ──
@@ -138,3 +145,4 @@ export async function POST(
     );
   }
 }
+
