@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  --forge-navy: #0A1A3C;
+  --forge-navy-light: #132A5C;
+  --forge-orange: #F5760A;
+  --forge-orange-dark: #D45E00;
+  --forge-white: #FFFFFF;
+  --forge-ink: #0A1220;
+  --forge-fog: #F4F6FA;
+  --forge-steel: #8FA0C2;
+}
+
+@theme {
+  --color-forge-navy: var(--forge-navy);
+  --color-forge-navy-light: var(--forge-navy-light);
+  --color-forge-orange: var(--forge-orange);
+  --color-forge-orange-dark: var(--forge-orange-dark);
+  --color-forge-white: var(--forge-white);
+  --color-forge-ink: var(--forge-ink);
+  --color-forge-fog: var(--forge-fog);
+  --color-forge-steel: var(--forge-steel);
+
+  --font-display: var(--font-space-grotesk), sans-serif;
+  --font-sans: var(--font-inter), sans-serif;
+  
+  --animate-spin-slow: spin 25s linear infinite;
+  --animate-spin-reverse: spin-reverse 25s linear infinite;
+  --animate-sheen: sheen 3s ease-in-out infinite;
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes sheen {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  50% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+/* Custom styles */
+body {
+  background-color: var(--forge-navy);
+  color: var(--forge-white);
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--forge-navy);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--forge-navy-light);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--forge-orange);
+}
+
+/* Diagonal cut motif shape utilities */
+.diagonal-cut {
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+}
+
+.diagonal-cut-reverse {
+  clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+}
+
+.diagonal-cut-card {
+  clip-path: polygon(0 0, 90% 0, 100% 10%, 100% 100%, 0 100%);
+}
+
+.diagonal-cut-card-reverse {
+  clip-path: polygon(0 10%, 10% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Active transition settings */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-duration: 350ms;
+}
