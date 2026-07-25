@@ -40,11 +40,11 @@ function StatCounter({ value, label, suffix = "" }: { value: number; label: stri
   }, [value]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 text-center border-r border-forge-navy-light/60 last:border-none md:p-8">
-      <div className="font-display text-4xl font-black tracking-tight text-forge-orange md:text-5xl">
+    <div className="flex flex-col items-center justify-center px-3 py-4 text-center border-b border-forge-navy-light/60 last:border-none md:px-4 md:py-6 md:border-r md:border-b-0">
+      <div className="font-display text-3xl font-black tracking-tight text-forge-orange sm:text-4xl md:text-5xl">
         {count.toLocaleString()}{suffix}
       </div>
-      <div className="mt-2 text-xs font-semibold uppercase tracking-wider text-forge-steel">
+      <div className="mt-1.5 text-xs font-semibold uppercase tracking-wider text-forge-steel sm:mt-2">
         {label}
       </div>
     </div>
@@ -55,18 +55,18 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<"workers" | "customers">("workers");
 
   return (
-    <div className="relative flex flex-col flex-grow overflow-hidden">
-      {/* Background Gear Details */}
-      <div className="absolute top-10 left-[-100px] -z-10 opacity-[0.03]">
+    <div className="relative flex flex-col flex-grow overflow-x-hidden">
+      {/* Background Gear Details - Hidden on mobile to prevent scroll issues */}
+      <div className="absolute top-10 left-[-100px] -z-10 opacity-[0.03] hidden sm:block">
         <Settings className="h-96 w-96 animate-spin-slow text-forge-white" />
       </div>
-      <div className="absolute top-[40%] right-[-150px] -z-10 opacity-[0.02]">
+      <div className="absolute top-[40%] right-[-150px] -z-10 opacity-[0.02] hidden lg:block">
         <Settings className="h-[500px] w-[500px] animate-spin-reverse text-forge-white" />
       </div>
 
       {/* 1. HERO SECTION */}
-      <section className="relative mx-auto max-w-7xl px-4 pt-20 pb-24 sm:px-6 sm:pt-28 lg:px-8 lg:pb-32">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+      <section className="relative mx-auto w-full max-w-7xl px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-28 lg:px-8 lg:pt-28 lg:pb-32">
+        <div className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-12 lg:items-center">
           {/* Hero Content */}
           <div className="space-y-8 lg:col-span-7">
             <motion.div
@@ -102,18 +102,18 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.45 }}
-              className="flex flex-col sm:flex-row gap-4 pt-4"
+              className="flex flex-col gap-3 pt-4 sm:flex-row sm:gap-4"
             >
               <Link
                 href="/beta/register"
-                className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-full bg-forge-orange px-8 py-4 text-base font-bold text-forge-white shadow-xl shadow-forge-orange/20 hover:bg-forge-orange-dark hover:scale-105 active:scale-95 transition-all"
+                className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-full bg-forge-orange px-6 py-3.5 text-sm font-bold text-forge-white shadow-xl shadow-forge-orange/20 hover:bg-forge-orange-dark hover:scale-105 active:scale-95 transition-all sm:px-8 sm:py-4 sm:text-base"
               >
                 <span>Join Beta Program</span>
                 <ArrowRight className="h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/ambassador"
-                className="flex items-center justify-center gap-2 rounded-full border border-forge-steel/30 bg-forge-navy-light/40 px-8 py-4 text-base font-bold text-forge-white hover:bg-forge-navy-light hover:border-forge-steel/60 hover:scale-105 active:scale-95 transition-all"
+                className="flex items-center justify-center gap-2 rounded-full border border-forge-steel/30 bg-forge-navy-light/40 px-6 py-3.5 text-sm font-bold text-forge-white hover:bg-forge-navy-light hover:border-forge-steel/60 hover:scale-105 active:scale-95 transition-all sm:px-8 sm:py-4 sm:text-base"
               >
                 <span>Become an Ambassador</span>
               </Link>
@@ -121,12 +121,12 @@ export default function Home() {
           </div>
 
           {/* Hero Visual Mark */}
-          <div className="flex items-center justify-center lg:col-span-5">
+          <div className="flex items-center justify-center lg:col-span-5 mt-8 sm:mt-10 lg:mt-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ type: "spring", damping: 15, duration: 0.8 }}
-              className="relative flex h-[350px] w-[350px] items-center justify-center sm:h-[400px] sm:w-[400px]"
+              className="relative flex h-[280px] w-[280px] items-center justify-center sm:h-[350px] sm:w-[350px] lg:h-[400px] lg:w-[400px]"
             >
               {/* Outer Gear */}
               <div className="absolute inset-0 flex items-center justify-center">
@@ -140,7 +140,7 @@ export default function Home() {
               <motion.div
                 animate={{ y: [0, -12, 0], scale: [1, 1.05, 1] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="relative z-10 flex h-48 w-48 items-center justify-center rounded-3xl bg-gradient-to-br from-forge-navy-light to-forge-navy border-2 border-forge-orange/40 shadow-2xl shadow-forge-orange/15 overflow-hidden p-4"
+                className="relative z-10 flex h-32 w-32 items-center justify-center rounded-2xl bg-gradient-to-br from-forge-navy-light to-forge-navy border-2 border-forge-orange/40 shadow-2xl shadow-forge-orange/15 overflow-hidden p-3 sm:h-40 sm:w-40 sm:rounded-3xl sm:p-4 lg:h-48 lg:w-48"
               >
                 <Image
                   src="/logo.png"
@@ -157,8 +157,8 @@ export default function Home() {
 
       {/* 2. STATS / SOCIAL PROOF SECTION */}
       <section className="border-y border-forge-navy-light/60 bg-forge-navy-light/20 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 divide-y divide-forge-navy-light/60 md:grid-cols-3 md:divide-y-0">
+        <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+          <div className="grid grid-cols-1 divide-y divide-forge-navy-light/60 md:grid-cols-3 md:divide-y-0 md:divide-x">
             <StatCounter value={12500} label="Jobs Matched" suffix="+" />
             <StatCounter value={3200} label="Skilled Workers Onboarded" suffix="+" />
             <StatCounter value={42} label="Cities Operating Live" />
@@ -167,20 +167,20 @@ export default function Home() {
       </section>
 
       {/* 3. FEATURE SHOWCASE SECTION (TABBED PREVIEW) */}
-      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight sm:text-5xl text-forge-white">
+      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="text-center space-y-3 sm:space-y-4 mb-12 sm:mb-14 lg:mb-16">
+          <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight sm:text-4xl lg:text-5xl text-forge-white">
             Designed to Build Connections
           </h2>
-          <p className="mx-auto max-w-2xl text-base text-forge-steel">
+          <p className="mx-auto max-w-2xl text-sm sm:text-base text-forge-steel px-2">
             Whether you are an independent trade contractor wanting jobs, or a property manager/homeowner needing quality work—Forge has you covered.
           </p>
 
           {/* Toggle Tabs */}
-          <div className="inline-flex mt-6 p-1 rounded-full bg-forge-navy-light border border-forge-steel/20">
+          <div className="inline-flex mt-4 sm:mt-6 p-1 rounded-full bg-forge-navy-light border border-forge-steel/20 flex-col sm:flex-row gap-1 sm:gap-0">
             <button
               onClick={() => setActiveTab("workers")}
-              className={`rounded-full px-6 py-2.5 text-sm font-bold transition-all ${
+              className={`rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold transition-all whitespace-nowrap ${
                 activeTab === "workers"
                   ? "bg-forge-orange text-forge-white shadow-md shadow-forge-orange/10"
                   : "text-forge-steel hover:text-forge-white"
@@ -190,7 +190,7 @@ export default function Home() {
             </button>
             <button
               onClick={() => setActiveTab("customers")}
-              className={`rounded-full px-6 py-2.5 text-sm font-bold transition-all ${
+              className={`rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-bold transition-all whitespace-nowrap ${
                 activeTab === "customers"
                   ? "bg-forge-orange text-forge-white shadow-md shadow-forge-orange/10"
                   : "text-forge-steel hover:text-forge-white"
@@ -202,7 +202,7 @@ export default function Home() {
         </div>
 
         {/* Tab Contents */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+        <div className="grid grid-cols-1 gap-10 sm:gap-12 lg:grid-cols-12 lg:items-center mt-10 sm:mt-12 lg:mt-16">
           {/* Tab Left Panel */}
           <div className="space-y-8 lg:col-span-6">
             {activeTab === "workers" ? (
@@ -379,47 +379,46 @@ export default function Home() {
       </section>
 
       {/* 4. HOW IT WORKS TIMELINE */}
-      <section className="relative bg-forge-navy-light/10 border-y border-forge-navy-light/40 py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-20">
-            <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-forge-white">
+      <section className="relative bg-forge-navy-light/10 border-y border-forge-navy-light/40 py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-3 sm:space-y-4 mb-14 sm:mb-16 lg:mb-20">
+            <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight sm:text-4xl lg:text-5xl text-forge-white">
               The Path to Better Matches
             </h2>
-            <p className="mx-auto max-w-2xl text-base text-forge-steel">
+            <p className="mx-auto max-w-2xl text-sm sm:text-base text-forge-steel px-2">
               Our system streamlines the hiring journey into 3 quick, clear steps.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3 relative">
+          <div className="grid grid-cols-1 gap-8 sm:gap-10 md:grid-cols-3 relative">
             {/* Step 1 */}
-            <div className="relative bg-forge-navy p-8 rounded-2xl border border-forge-navy-light/80 hover:border-forge-orange/40 shadow-lg group">
-              <div className="absolute -top-6 left-8 flex h-12 w-12 items-center justify-center rounded-xl bg-forge-navy-light border-2 border-forge-steel/30 text-forge-white group-hover:border-forge-orange transition-all">
-                <span className="font-display text-lg font-black text-forge-orange">1</span>
+            <div className="relative bg-forge-navy p-6 sm:p-8 rounded-2xl border border-forge-navy-light/80 hover:border-forge-orange/40 shadow-lg group">
+              <div className="absolute -top-5 sm:-top-6 left-6 sm:left-8 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-xl bg-forge-navy-light border-2 border-forge-steel/30 text-forge-white group-hover:border-forge-orange transition-all">
+                <span className="font-display text-base sm:text-lg font-black text-forge-orange">1</span>
               </div>
-              <h3 className="mt-4 font-display text-xl font-bold text-forge-white">Submit Request</h3>
-              <p className="mt-3 text-sm text-forge-steel leading-relaxed">
+              <h3 className="mt-3 sm:mt-4 font-display text-lg sm:text-xl font-bold text-forge-white">Submit Request</h3>
+              <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-forge-steel leading-relaxed">
                 Describe the repair, maintenance, or construction task. Set your budget parameters and desired timeline inside the app.
               </p>
             </div>
 
-            {/* Step 2 */}
-            <div className="relative bg-forge-navy p-8 rounded-2xl border border-forge-navy-light/80 hover:border-forge-orange/40 shadow-lg group">
-              <div className="absolute -top-6 left-8 flex h-12 w-12 items-center justify-center rounded-xl bg-forge-navy-light border-2 border-forge-steel/30 text-forge-white group-hover:border-forge-orange transition-all">
-                <span className="font-display text-lg font-black text-forge-orange">2</span>
+            <div className="relative bg-forge-navy p-6 sm:p-8 rounded-2xl border border-forge-navy-light/80 hover:border-forge-orange/40 shadow-lg group">
+              <div className="absolute -top-5 sm:-top-6 left-6 sm:left-8 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-xl bg-forge-navy-light border-2 border-forge-steel/30 text-forge-white group-hover:border-forge-orange transition-all">
+                <span className="font-display text-base sm:text-lg font-black text-forge-orange">2</span>
               </div>
-              <h3 className="mt-4 font-display text-xl font-bold text-forge-white">Compare Professionals</h3>
-              <p className="mt-3 text-sm text-forge-steel leading-relaxed">
+              <h3 className="mt-3 sm:mt-4 font-display text-lg sm:text-xl font-bold text-forge-white">Compare Professionals</h3>
+              <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-forge-steel leading-relaxed">
                 Review automated proposals from vetted tradespeople. Look through user reviews, certificates, and work portfolios.
               </p>
             </div>
 
             {/* Step 3 */}
-            <div className="relative bg-forge-navy p-8 rounded-2xl border border-forge-navy-light/80 hover:border-forge-orange/40 shadow-lg group">
-              <div className="absolute -top-6 left-8 flex h-12 w-12 items-center justify-center rounded-xl bg-forge-navy-light border-2 border-forge-steel/30 text-forge-white group-hover:border-forge-orange transition-all">
-                <span className="font-display text-lg font-black text-forge-orange">3</span>
+            <div className="relative bg-forge-navy p-6 sm:p-8 rounded-2xl border border-forge-navy-light/80 hover:border-forge-orange/40 shadow-lg group">
+              <div className="absolute -top-5 sm:-top-6 left-6 sm:left-8 flex h-10 sm:h-12 w-10 sm:w-12 items-center justify-center rounded-xl bg-forge-navy-light border-2 border-forge-steel/30 text-forge-white group-hover:border-forge-orange transition-all">
+                <span className="font-display text-base sm:text-lg font-black text-forge-orange">3</span>
               </div>
-              <h3 className="mt-4 font-display text-xl font-bold text-forge-white">Work & Confirm</h3>
-              <p className="mt-3 text-sm text-forge-steel leading-relaxed">
+              <h3 className="mt-3 sm:mt-4 font-display text-lg sm:text-xl font-bold text-forge-white">Work & Confirm</h3>
+              <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-forge-steel leading-relaxed">
                 Once the job is completed to your high standard, release escrow funds securely. Review each other to keep the community honest.
               </p>
             </div>
@@ -428,17 +427,17 @@ export default function Home() {
       </section>
 
       {/* 5. PROGRAMS TEASER SECTION (DIAGONAL CUT CARDS) */}
-      <section className="mx-auto max-w-7xl px-4 py-28 sm:px-6 lg:px-8">
-        <div className="text-center space-y-4 mb-20">
-          <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight text-forge-white">
+      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:py-20 lg:py-28 sm:px-6 lg:px-8">
+        <div className="text-center space-y-3 sm:space-y-4 mb-12 sm:mb-16 lg:mb-20">
+          <h2 className="font-display text-3xl font-extrabold uppercase tracking-tight sm:text-4xl lg:text-5xl text-forge-white">
             Join Our Launch Programs
           </h2>
-          <p className="mx-auto max-w-2xl text-base text-forge-steel">
+          <p className="mx-auto max-w-2xl text-sm sm:text-base text-forge-steel px-2">
             Be part of the trade revolution. Apply for our active tester or marketing ambassador positions and gain early rewards.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10">
           {/* Beta Testing card */}
           <div className="diagonal-cut-card bg-gradient-to-br from-forge-navy-light to-forge-navy p-8 sm:p-10 border border-forge-steel/10 flex flex-col justify-between group hover:border-forge-orange/40 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 opacity-[0.03] group-hover:opacity-[0.06]">

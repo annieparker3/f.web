@@ -40,7 +40,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased font-sans`}
     >
-      <body className="min-h-full flex flex-col bg-forge-navy text-forge-white">
+      <body className="min-h-full flex flex-col bg-forge-navy text-forge-white overflow-x-hidden">
         {/* Global Background Logo Watermark */}
         <div 
           className="fixed inset-0 z-0 pointer-events-none opacity-30 bg-[url('/logo.png')] bg-center bg-no-repeat bg-[length:60%]" 
