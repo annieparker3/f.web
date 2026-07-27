@@ -45,9 +45,9 @@ export default function RootLayout({
         <div 
           className="fixed inset-0 z-0 pointer-events-none opacity-30 bg-[url('/logo.png')] bg-center bg-no-repeat bg-[length:60%]" 
         />
-        <div className="relative z-10 flex flex-col flex-grow">
+        <div className="relative z-10 flex flex-col flex-grow max-w-[100vw] overflow-x-hidden">
           <Navbar />
-          <main className="flex-grow flex flex-col">{children}</main>
+          <main className="flex-grow flex flex-col max-w-[100vw] overflow-x-hidden">{children}</main>
           <Footer />
         </div>
       </body>
